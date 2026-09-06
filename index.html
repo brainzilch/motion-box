@@ -25,7 +25,10 @@
           show("[error] " + (e.message || e.type) + (e.filename ? " @" + e.filename.split("/").pop() + ":" + e.lineno : ""));
         });
         window.addEventListener("unhandledrejection", function (e) {
-          show("[promise] " + (e.reason && (e.reason.message || String(e.reason))));
+          var msg = (e.reason && (e.reason.message || String(e.reason))) || "";
+          // iOSの自動再生制限による音声まわりの拒否は無害（テンプレは全て無音）なので出さない
+          if (/audio device|AudioContext|NotAllowedError|play\(\)|interact/i.test(msg)) return;
+          show("[promise] " + msg);
         });
         // 8秒たってもReactが何も描いていなければ、その旨を表示する
         setTimeout(function () {
@@ -36,7 +39,7 @@
         }, 8000);
       })();
     </script>
-    <script type="module" crossorigin src="./assets/index-l39-fKZX.js"></script>
+    <script type="module" crossorigin src="./assets/index-BhBHY78K.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-D6BRHozE.css">
   </head>
   <body>
