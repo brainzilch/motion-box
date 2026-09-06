@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MOTION BOX — 動画素材ジェネレーター</title>
+    <script>
+      // スマホで「黒い画面のまま」になったとき、原因を画面に出すための保険（2026/09/06）。
+      // 黒画面＝JSがどこかで落ちている可能性が高いが、スマホでは開発ツールが見られない。
+      // エラー内容をそのまま表示して、スクショ1枚で原因が分かるようにする。
+      (function () {
+        function show(msg) {
+          var d = document.getElementById("boot-error");
+          if (!d) {
+            d = document.createElement("div");
+            d.id = "boot-error";
+            d.style.cssText =
+              "position:fixed;left:8px;right:8px;top:8px;z-index:99999;background:#3b0d12;color:#ffd7d7;" +
+              "border:1px solid #a33;border-radius:8px;padding:10px 12px;font:12px/1.6 monospace;white-space:pre-wrap;word-break:break-all;";
+            document.body.appendChild(d);
+          }
+          d.textContent += msg + "\n";
+        }
+        window.addEventListener("error", function (e) {
+          show("[error] " + (e.message || e.type) + (e.filename ? " @" + e.filename.split("/").pop() + ":" + e.lineno : ""));
+        });
+        window.addEventListener("unhandledrejection", function (e) {
+          show("[promise] " + (e.reason && (e.reason.message || String(e.reason))));
+        });
+        // 8秒たってもReactが何も描いていなければ、その旨を表示する
+        setTimeout(function () {
+          var root = document.getElementById("root");
+          if (root && root.childElementCount === 0) {
+            show("[boot] 8秒たっても画面が描画されていません。この表示をスクショしてClaudeに見せてください。UA: " + navigator.userAgent);
+          }
+        }, 8000);
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-ajyKje5U.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index--0FShLVL.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
